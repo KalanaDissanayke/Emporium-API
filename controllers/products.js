@@ -7,7 +7,7 @@ exports.getProducts = async (req, res, next) => {
     try {
         const products = await Product.find();
 
-        res.status(200).json({ success: true, data: products });
+        res.status(200).json({ success: true, count: products.length, data: products });
     } catch (error) {
         res.status(400).json({ success: false });
     }
@@ -40,13 +40,33 @@ exports.createProduct = async (req, res, next) => {
 // @desc            Update product
 // @route           PUT /api/v1/products/:id
 // @access          Private
-exports.updateProduct = (req, res, next) => {
-    res.status(200).json({ success: true, msg: `Update product ${req.params.id}` });
+exports.updateProduct = async (req, res, next) => {
+    try {
+        const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+
+        if (!product) {
+            return res.status(400).json({ success: false });
+        }
+
+        res.status(200).json({ success: true, data: product });
+    } catch (error) {
+        res.status(400).json({ success: false });
+    }
 };
 
 // @desc            Delete product
 // @route           DELETE /api/v1/products/:id
 // @access          Private
-exports.deleteProduct = (req, res, next) => {
-    res.status(200).json({ success: true, msg: `Delete product ${req.params.id}` });
+exports.deleteProduct = async (req, res, next) => {
+    try {
+        const product = await Product.findByIdAndDelete(req.params.id);
+
+        if (!product) {
+            return res.status(400).json({ success: false });
+        }
+
+        res.status(200).json({ success: true, data: {} });
+    } catch (error) {
+        res.status(400).json({ success: false });
+    }
 };
