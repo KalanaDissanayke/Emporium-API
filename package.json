@@ -15,7 +15,9 @@
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "mongoose": "^5.10.0",
-        "morgan": "^1.10.0"
+        "morgan": "^1.10.0",
+        "swagger-jsdoc": "^4.0.0",
+        "swagger-ui-express": "^4.1.4"
     },
     "devDependencies": {
         "@commitlint/cli": "^9.1.1",
