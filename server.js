@@ -2,7 +2,10 @@ const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const colors = require('colors');
+const swaggerJSDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 const connectDB = require('./config/db');
+const swaggerOptions = require ('./swagger.conf');
 
 // Load env vars
 dotenv.config({ path: './config/config.env' });
@@ -23,8 +26,14 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 
+const specs = swaggerJSDoc(swaggerOptions);
+
 // Mount routers
 app.use('/api/v1/products', products);
+
+// Document routes
+app.use('/api/v1/docs',swaggerUi.serve);
+app.use('/api/v1/docs', swaggerUi.setup(specs, { explorer: true }));
 
 const PORT = process.env.PORT || 5000;
 
