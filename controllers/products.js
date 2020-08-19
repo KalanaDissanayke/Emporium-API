@@ -34,7 +34,13 @@ exports.getProduct = async (req, res, next) => {
 // @route           POST /api/v1/products
 // @access          Private
 exports.createProduct = async (req, res, next) => {
-    res.status(201).json({ success: true, msg: 'Create new product' });
+    try {
+        const product = await Product.create(req.body);
+
+        res.status(201).json({ success: true, data: product });
+    } catch (error) {
+        res.status(400).json({ success: false });
+    }
 };
 
 // @desc            Update product
