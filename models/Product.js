@@ -1,5 +1,59 @@
 const mongoose = require('mongoose');
 
+/**
+ * @swagger
+ *  components:
+ *    schemas:
+ *      Product:
+ *        type: object
+ *        required:
+ *          - name
+ *          - description
+ *          - unitPrice
+ *        properties:
+ *          name:
+ *            type: string
+ *            description: Name for the product, needs to be unique.
+ *          description:
+ *            type: string
+ *            description: Description of the product.
+ *          unitPrice:
+ *              type: number
+ *          stock:
+ *             $ref: '#/components/schemas/Stock'
+ *          averageRating:
+ *              type: number
+ *          photo:
+ *              type: string
+ *          createdAt:
+ *              type: string
+ *              format: date-time
+ */
+
+/**
+ * @swagger
+ *  components:
+ *    schemas:
+ *      Stock:
+ *        type: object
+ *        required:
+ *          - quantity
+ *          - unitOfMeasure
+ *        properties:
+ *          quantity:
+ *            type: number
+ *          unitOfMeasure:
+ *            type: string
+ *            description: Stock keeping measurement unit of a product.
+ *            enum:
+ *              - Box
+ *              - Gram
+ *              - Piece
+ *              - Kilo
+ *              - Liter
+ *              - Pack
+ */
+
 const ProductSchema = new mongoose.Schema({
     name: {
         type: String,
