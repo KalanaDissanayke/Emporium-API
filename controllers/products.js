@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const ErrorResponse = require('../utils/errorResponse');
 
 // @desc            Get all products
 // @route           GET /api/v1/products
@@ -9,7 +10,7 @@ exports.getProducts = async (req, res, next) => {
 
         res.status(200).json({ success: true, count: products.length, data: products });
     } catch (error) {
-        res.status(400).json({ success: false });
+        next(error);
     }
 };
 
@@ -21,12 +22,12 @@ exports.getProduct = async (req, res, next) => {
         const product = await Product.findById(req.params.id);
 
         if (!product) {
-            return res.status(400).json({ success: false });
+            return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));
         }
 
         res.status(200).json({ success: true, data: product });
     } catch (error) {
-        res.status(400).json({ success: false });
+        next(error);
     }
 };
 
@@ -39,7 +40,7 @@ exports.createProduct = async (req, res, next) => {
 
         res.status(201).json({ success: true, data: product });
     } catch (error) {
-        res.status(400).json({ success: false });
+        next(error);
     }
 };
 
@@ -51,12 +52,12 @@ exports.updateProduct = async (req, res, next) => {
         const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
 
         if (!product) {
-            return res.status(400).json({ success: false });
+            return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));
         }
 
         res.status(200).json({ success: true, data: product });
     } catch (error) {
-        res.status(400).json({ success: false });
+        next(error);
     }
 };
 
@@ -68,11 +69,11 @@ exports.deleteProduct = async (req, res, next) => {
         const product = await Product.findByIdAndDelete(req.params.id);
 
         if (!product) {
-            return res.status(400).json({ success: false });
+            return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));
         }
 
         res.status(200).json({ success: true, data: {} });
     } catch (error) {
-        res.status(400).json({ success: false });
+        next(error);
     }
 };

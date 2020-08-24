@@ -7,6 +7,7 @@ const swaggerUi = require('swagger-ui-express');
 
 const connectDB = require('./config/db');
 const swaggerOptions = require('./config/swagger.conf');
+const errorHandler = require('./middleware/error');
 
 // Load env vars
 dotenv.config({ path: './config/config.env' });
@@ -31,6 +32,8 @@ const specs = swaggerJSDoc(swaggerOptions);
 
 // Mount routers
 app.use('/api/v1/products', products);
+
+app.use(errorHandler);
 
 // Document routes
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
