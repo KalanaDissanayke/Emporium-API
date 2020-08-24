@@ -5,10 +5,10 @@ const options = {
             title: 'Emporium API',
             version: '1.0.0',
             description: 'Best marketplace for introverts 🤓',
-            license: {
-                name: 'MIT',
-                url: '',
-            },
+            // license: {
+            //     name: 'MIT',
+            //     url: '',
+            // },
         },
         servers: [
             {
