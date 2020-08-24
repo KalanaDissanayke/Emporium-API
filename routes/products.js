@@ -27,6 +27,12 @@ router
      * path:
      *  /products:
      *    post:
+     *      requestBody:
+     *        required: true
+     *        content: 
+     *         application/json:
+     *          schema:
+     *            $ref: '#/components/schemas/Product'
      *      summary: Create a new product
      *      tags: [Products]
      *      responses:
@@ -39,6 +45,79 @@ router
      */
     .post(createProduct);
 
-router.route('/:id').get(getProduct).put(updateProduct).delete(deleteProduct);
+router
+   .route('/:id')
+   
+    /**
+     * @swagger
+     * path:
+     *  /products/{id}:
+     *    get:
+     *      parameters:
+     *       - in: path
+     *         name: id
+     *         required: true
+     *         description: Id of the product to get details
+     *      summary: Get product by id
+     *      tags: [Products]
+     *      responses:
+     *         "200":
+     *           description: A product
+     *           content:
+     *             application/json:
+     *               schema:
+     *                 $ref: '#/components/schemas/Product'
+     */
+   .get(getProduct)
+   
+  /**
+     * @swagger
+     * path:
+     *  /products/{id}:
+     *    put:
+     *      parameters:
+     *       - in: path
+     *         name: id
+     *         required: true
+     *         description: Id of the product to update
+     *      requestBody:
+     *        required: true
+     *        content: 
+     *         application/json:
+     *          schema:
+     *            $ref: '#/components/schemas/Product'
+     *      summary: update product by id
+     *      tags: [Products]
+     *      responses:
+     *         "200":
+     *           description: A product
+     *           content:
+     *             application/json:
+     *               schema:
+     *                 $ref: '#/components/schemas/Product'
+     */
+   .put(updateProduct)
+   
+    /**
+     * @swagger
+     * path:
+     *  /products/{id}:
+     *    delete:
+     *      parameters:
+     *       - in: path
+     *         name: id
+     *         required: true
+     *         description: Id of the product to delete
+     *      summary: delete product by id
+     *      tags: [Products]
+     *      responses:
+     *         "200":
+     *           description: A product
+     *           content:
+     *             application/json:
+     *               schema:
+     *                 $ref: '#/components/schemas/Product'
+     */
+   .delete(deleteProduct);
 
 module.exports = router;
