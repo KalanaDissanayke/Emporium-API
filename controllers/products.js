@@ -6,7 +6,16 @@ const asyncHandler = require('../middleware/async');
 // @route           GET /api/v1/products
 // @access          Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
-    const products = await Product.find();
+    // const products = await Product.find();
+    let query;
+
+    let queryStr = JSON.stringify(req.query);
+
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`);
+
+    query = Product.find(JSON.parse(queryStr));
+
+    const products = await query;
 
     res.status(200).json({ success: true, count: products.length, data: products });
 });
