@@ -28,6 +28,12 @@ CategorySchema.pre('save', function (next) {
     next();
 });
 
+// Cascade delete products when a category is deleted
+CategorySchema.pre('remove', async function (next) {
+    await this.model('Product').deleteMany({ category: this._id });
+    next();
+});
+
 // Reverse populate with Virtuals
 CategorySchema.virtual('products', {
     ref: 'Product',
