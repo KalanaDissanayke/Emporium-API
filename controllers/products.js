@@ -26,7 +26,10 @@ exports.getProducts = asyncHandler(async (req, res, next) => {
     if (req.params.categoryId) {
         query = Product.find({ ...JSON.parse(queryStr), category: req.params.categoryId });
     } else {
-        query = Product.find(JSON.parse(queryStr));
+        query = Product.find(JSON.parse(queryStr)).populate({
+            path: 'category',
+            select: 'name slug',
+        });
     }
     // query = Product.find(JSON.parse(queryStr));
 
