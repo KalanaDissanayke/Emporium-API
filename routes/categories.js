@@ -1,5 +1,5 @@
 const express = require('express');
-const { getCategories, getCategory, createCategory } = require('../controllers/categories');
+const { getCategories, getCategory, createCategory, updateCategory } = require('../controllers/categories');
 
 // Include other resource routers
 const productsRouter = require('./products');
@@ -11,6 +11,6 @@ router.use('/:categoryId/products', productsRouter);
 
 router.route('/').get(getCategories).post(createCategory);
 
-router.route('/:id').get(getCategory);
+router.route('/:id').get(getCategory).put(updateCategory);
 
 module.exports = router;

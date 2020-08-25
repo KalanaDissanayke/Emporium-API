@@ -36,3 +36,16 @@ exports.createCategory = asyncHandler(async (req, res, next) => {
 
     res.status(201).json({ success: true, data: category });
 });
+
+// @desc            Update category
+// @route           PUT /api/v1/categories/:id
+// @access          Private
+exports.updateCategory = asyncHandler(async (req, res, next) => {
+    const category = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+
+    if (!category) {
+        return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));
+    }
+
+    res.status(200).json({ success: true, data: category });
+});
