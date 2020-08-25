@@ -20,6 +20,7 @@ connectDB();
 // Route files
 const products = require('./routes/products');
 const categories = require('./routes/categories');
+const auth = require('./routes/auth');
 
 const app = express();
 
@@ -43,6 +44,7 @@ const specs = swaggerJSDoc(swaggerOptions);
 // Mount routers
 app.use('/api/v1/products', products);
 app.use('/api/v1/categories', categories);
+app.use('/api/v1/auth', auth);
 
 app.use(errorHandler);
 
