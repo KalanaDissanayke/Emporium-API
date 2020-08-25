@@ -7,12 +7,37 @@ const {
     deleteCategory,
 } = require('../controllers/categories');
 
+const Category = require('../models/Category');
+const advancedResults = require('../middleware/advancedResults');
+
 // Include other resource routers
 const productsRouter = require('./products');
 
 const router = express.Router();
 
 // Re-route into other resource routers
+/**
+ * @swagger
+ * path:
+ *  /categories/{categoryId}/products:
+ *    get:
+ *      parameters:
+ *       - in: path
+ *         name: categoryId
+ *         schema:
+ *             type: string
+ *         required: true
+ *         description: Id of the category to get specified products
+ *      summary: Get products for a category
+ *      tags: [Categories]
+ *      responses:
+ *         "200":
+ *           description: A category
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/Product'
+ */
 router.use('/:categoryId/products', productsRouter);
 
 router
@@ -32,9 +57,9 @@ router
      *              schema:
      *                $ref: '#/components/schemas/Category'
      */
-.get(getCategories)
+    .get(advancedResults(Category, 'products'), getCategories)
 
-/**
+    /**
      * @swagger
      * path:
      *  /categories:
@@ -55,12 +80,11 @@ router
      *              schema:
      *                $ref: '#/components/schemas/Category'
      */
-.post(createCategory);
-
+    .post(createCategory);
 
 router
     .route('/:id')
-/**
+    /**
      * @swagger
      * path:
      *  /categories/{id}:
@@ -80,9 +104,9 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Category'
      */
-.get(getCategory)
+    .get(getCategory)
 
-/**
+    /**
      * @swagger
      * path:
      *  /categories/{id}:
@@ -108,9 +132,9 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Category'
      */
-.put(updateCategory)
+    .put(updateCategory)
 
-/**
+    /**
      * @swagger
      * path:
      *  /categories/{id}:
@@ -130,7 +154,6 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Category'
      */
-.delete(deleteCategory);
-
+    .delete(deleteCategory);
 
 module.exports = router;

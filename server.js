@@ -2,6 +2,9 @@ const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const colors = require('colors');
+const fileupload = require('express-fileupload');
+const path = require('path');
+const cookieParser = require('cookie-parser');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -18,22 +21,34 @@ connectDB();
 // Route files
 const products = require('./routes/products');
 const categories = require('./routes/categories');
+const auth = require('./routes/auth');
 
 const app = express();
 
 // Body Parser
 app.use(express.json());
 
+// Cookie Parser
+app.use(cookieParser());
+
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 
+// File Uploading
+app.use(fileupload());
+
+// Set static folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Swagger Options
 const specs = swaggerJSDoc(swaggerOptions);
 
 // Mount routers
 app.use('/api/v1/products', products);
 app.use('/api/v1/categories', categories);
+app.use('/api/v1/auth', auth);
 
 app.use(errorHandler);
 

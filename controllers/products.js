@@ -1,3 +1,4 @@
+const path = require('path');
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 const ErrorResponse = require('../utils/errorResponse');
@@ -8,76 +9,13 @@ const asyncHandler = require('../middleware/async');
 // @route           GET /api/v1/categories/:categoryId/products
 // @access          Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
-    let query;
-
-    const reqQuery = { ...req.query };
-
-    // Fields to exclude
-    const removeFields = ['select', 'sort', 'page', 'limit'];
-
-    // Loop over removeFields and delete them from reqQuery
-    removeFields.forEach((param) => delete reqQuery[param]);
-
-    let queryStr = JSON.stringify(reqQuery);
-
-    // Create operators ($gt, $gte, $lt, $lte, $in)
-    queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`);
-
-    // Finding resource
     if (req.params.categoryId) {
-        query = Product.find({ ...JSON.parse(queryStr), category: req.params.categoryId });
+        const products = await Product.find({ category: req.params.categoryId });
+
+        res.status(200).json({ success: true, count: products.length, data: products });
     } else {
-        query = Product.find(JSON.parse(queryStr)).populate({
-            path: 'category',
-            select: 'name slug',
-        });
+        res.status(200).json(res.advancedResults);
     }
-    // query = Product.find(JSON.parse(queryStr));
-
-    // Select Fields
-    if (req.query.select) {
-        const fields = req.query.select.split(',').join(' ');
-        query = query.select(fields);
-    }
-
-    // Sort
-    if (req.query.sort) {
-        const sortBy = req.query.sort.split(',').join(' ');
-        query = query.sort(sortBy);
-    } else {
-        query = query.sort('-createdAt');
-    }
-
-    // Pagination
-    const page = parseInt(req.query.page, 10) || 1;
-    const limit = parseInt(req.query.limit, 10) || 25;
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    const total = await Product.countDocuments(JSON.parse(queryStr));
-
-    query = query.skip(startIndex).limit(limit);
-
-    // Executing query
-    const products = await query;
-
-    // Pagination result
-    const pagination = {};
-
-    if (endIndex < total) {
-        pagination.next = {
-            page: page + 1,
-            limit,
-        };
-    }
-
-    if (startIndex > 0) {
-        pagination.prev = {
-            page: page - 1,
-            limit,
-        };
-    }
-
-    res.status(200).json({ success: true, count: products.length, pagination, data: products });
 });
 
 // @desc            Get single products
@@ -134,4 +72,47 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
     }
 
     res.status(200).json({ success: true, data: {} });
+});
+
+// @desc            Upload photo for product
+// @route           PUT /api/v1/products/:id/photo
+// @access          Private
+exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+        return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));
+    }
+
+    if (!req.files) {
+        return next(new ErrorResponse(`Please upload a file`, 400));
+    }
+
+    const file = req.files.file;
+
+    // Validate file is a photo
+    if (!file.mimetype.startsWith('image')) {
+        return next(new ErrorResponse(`Please upload an image file`, 400));
+    }
+
+    // Check file size
+    if (file.size > process.env.MAX_FILE_UPLOAD) {
+        return next(
+            new ErrorResponse(`Please upload an image less than ${process.env.MAX_FILE_UPLOAD / 1000000} MB`, 400),
+        );
+    }
+
+    // Create custom file name
+    file.name = `photo_${product._id}${path.parse(file.name).ext}`;
+
+    file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
+        if (err) {
+            console.error(err);
+            return next(new ErrorResponse(`Problem with file upload`, 500));
+        }
+
+        await Product.findByIdAndUpdate(req.params.id, { photo: file.name });
+
+        res.status(200).json({ success: true, data: file.name });
+    });
 });
