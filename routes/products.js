@@ -11,6 +11,8 @@ const {
 const Product = require('../models/Product');
 const advancedResults = require('../middleware/advancedResults');
 
+const { protect } = require('../middleware/auth');
+
 const router = express.Router({ mergeParams: true });
 
 router
@@ -53,7 +55,7 @@ router
      *              schema:
      *                $ref: '#/components/schemas/Product'
      */
-    .post(createProduct);
+    .post(protect, createProduct);
 
 router
     .route('/:id')
@@ -106,7 +108,7 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Product'
      */
-    .put(updateProduct)
+    .put(protect, updateProduct)
 
     /**
      * @swagger
@@ -128,8 +130,8 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Product'
      */
-    .delete(deleteProduct);
+    .delete(protect, deleteProduct);
 
-router.route('/:id/photo').put(productPhotoUpload);
+router.route('/:id/photo').put(protect, productPhotoUpload);
 
 module.exports = router;
