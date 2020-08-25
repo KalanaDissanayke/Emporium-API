@@ -11,6 +11,8 @@ const {
 const Product = require('../models/Product');
 const advancedResults = require('../middleware/advancedResults');
 
+const { protect, authorize } = require('../middleware/auth');
+
 const router = express.Router({ mergeParams: true });
 
 router
@@ -53,7 +55,7 @@ router
      *              schema:
      *                $ref: '#/components/schemas/Product'
      */
-    .post(createProduct);
+    .post(protect, authorize('seller', 'admin'), createProduct);
 
 router
     .route('/:id')
@@ -67,7 +69,7 @@ router
      *       - in: path
      *         name: id
      *         schema:
- *                 type: string
+     *                 type: string
      *         required: true
      *         description: Id of the product to get details
      *      summary: Get product by id
@@ -91,7 +93,7 @@ router
      *       - in: path
      *         name: id
      *         schema:
- *                 type: string
+     *                 type: string
      *         required: true
      *         description: Id of the product to update
      *      requestBody:
@@ -110,7 +112,7 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Product'
      */
-    .put(updateProduct)
+    .put(protect, authorize('seller', 'admin'), updateProduct)
 
     /**
      * @swagger
@@ -121,7 +123,7 @@ router
      *       - in: path
      *         name: id
      *         schema:
- *                 type: string
+     *                 type: string
      *         required: true
      *         description: Id of the product to delete
      *      summary: delete product by id
@@ -134,8 +136,8 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Product'
      */
-    .delete(deleteProduct);
+    .delete(protect, authorize('seller', 'admin'), deleteProduct);
 
-router.route('/:id/photo').put(productPhotoUpload);
+router.route('/:id/photo').put(protect, authorize('seller', 'admin'), productPhotoUpload);
 
 module.exports = router;
