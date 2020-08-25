@@ -1,9 +1,11 @@
 const Product = require('../models/Product');
+const Category = require('../models/Category');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 
 // @desc            Get all products
 // @route           GET /api/v1/products
+// @route           GET /api/v1/categories/:categoryId/products
 // @access          Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
     let query;
@@ -22,7 +24,15 @@ exports.getProducts = asyncHandler(async (req, res, next) => {
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`);
 
     // Finding resource
-    query = Product.find(JSON.parse(queryStr));
+    if (req.params.categoryId) {
+        query = Product.find({ ...JSON.parse(queryStr), category: req.params.categoryId });
+    } else {
+        query = Product.find(JSON.parse(queryStr)).populate({
+            path: 'category',
+            select: 'name slug',
+        });
+    }
+    // query = Product.find(JSON.parse(queryStr));
 
     // Select Fields
     if (req.query.select) {
@@ -84,9 +94,17 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
 });
 
 // @desc            Create new product
-// @route           POST /api/v1/products
+// @route           POST /api/v1/categories/:categoryId/products
 // @access          Private
 exports.createProduct = asyncHandler(async (req, res, next) => {
+    req.body.category = req.params.categoryId;
+
+    const category = await Category.findById(req.params.categoryId);
+
+    if (!category) {
+        return next(new ErrorResponse(`No category with the id of ${req.params.id}`, 404));
+    }
+
     const product = await Product.create(req.body);
 
     res.status(201).json({ success: true, data: product });

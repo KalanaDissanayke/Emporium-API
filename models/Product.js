@@ -93,6 +93,11 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         default: 'no-photo.jpg',
     },
+    category: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Category',
+        required: true,
+    },
     createdAt: {
         type: Date,
         default: Date.now,

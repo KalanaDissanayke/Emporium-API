@@ -1,7 +1,7 @@
 const express = require('express');
 const { getProducts, getProduct, createProduct, updateProduct, deleteProduct } = require('../controllers/products');
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router
     .route('/')
@@ -29,7 +29,7 @@ router
      *    post:
      *      requestBody:
      *        required: true
-     *        content: 
+     *        content:
      *         application/json:
      *          schema:
      *            $ref: '#/components/schemas/Product'
@@ -46,8 +46,8 @@ router
     .post(createProduct);
 
 router
-   .route('/:id')
-   
+    .route('/:id')
+
     /**
      * @swagger
      * path:
@@ -68,9 +68,9 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Product'
      */
-   .get(getProduct)
-   
-  /**
+    .get(getProduct)
+
+    /**
      * @swagger
      * path:
      *  /products/{id}:
@@ -82,7 +82,7 @@ router
      *         description: Id of the product to update
      *      requestBody:
      *        required: true
-     *        content: 
+     *        content:
      *         application/json:
      *          schema:
      *            $ref: '#/components/schemas/Product'
@@ -96,8 +96,8 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Product'
      */
-   .put(updateProduct)
-   
+    .put(updateProduct)
+
     /**
      * @swagger
      * path:
@@ -118,6 +118,6 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Product'
      */
-   .delete(deleteProduct);
+    .delete(deleteProduct);
 
 module.exports = router;
