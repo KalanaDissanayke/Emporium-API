@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const Category = require('../models/Category');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 
@@ -93,9 +94,17 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
 });
 
 // @desc            Create new product
-// @route           POST /api/v1/products
+// @route           POST /api/v1/categories/:categoryId/products
 // @access          Private
 exports.createProduct = asyncHandler(async (req, res, next) => {
+    req.body.category = req.params.categoryId;
+
+    const category = await Category.findById(req.params.categoryId);
+
+    if (!category) {
+        return next(new ErrorResponse(`No category with the id of ${req.params.id}`, 404));
+    }
+
     const product = await Product.create(req.body);
 
     res.status(201).json({ success: true, data: product });
