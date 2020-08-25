@@ -38,7 +38,7 @@ CategorySchema.pre('remove', async function (next) {
 CategorySchema.virtual('products', {
     ref: 'Product',
     localField: '_id',
-    foreignField: 'product',
+    foreignField: 'category',
     justOne: false,
 });
 
