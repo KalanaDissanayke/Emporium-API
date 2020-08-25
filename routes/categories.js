@@ -95,7 +95,7 @@ router
      *       - in: path
      *         name: id
      *         schema:
- *                 type: string
+     *             type: string
      *         required: true
      *         description: Id of the category to get details
      *      summary: Get category by id
