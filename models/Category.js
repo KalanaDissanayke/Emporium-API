@@ -1,6 +1,23 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 
+/**
+ * @swagger
+ *  components:
+ *    schemas:
+ *      Category:
+ *        type: object
+ *        required:
+ *          - name
+ *        properties:
+ *          name:
+ *            type: string
+ *            description: Name for the category, needs to be unique.
+ *          createdAt:
+ *             type: string
+ *             format: date-time
+ */
+
 const CategorySchema = new mongoose.Schema(
     {
         name: {
