@@ -92,6 +92,8 @@ router
      *      parameters:
      *       - in: path
      *         name: id
+     *         schema:
+ *                 type: string
      *         required: true
      *         description: Id of the category to get details
      *      summary: Get category by id
@@ -114,6 +116,8 @@ router
      *      parameters:
      *       - in: path
      *         name: id
+     *         schema:
+ *                 type: string
      *         required: true
      *         description: Id of the category to update
      *      requestBody:
@@ -142,6 +146,8 @@ router
      *      parameters:
      *       - in: path
      *         name: id
+     *         schema:
+ *                 type: string
      *         required: true
      *         description: Id of the category to delete
      *      summary: delete category by id

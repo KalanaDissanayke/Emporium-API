@@ -66,6 +66,8 @@ router
      *      parameters:
      *       - in: path
      *         name: id
+     *         schema:
+ *                 type: string
      *         required: true
      *         description: Id of the product to get details
      *      summary: Get product by id
@@ -88,6 +90,8 @@ router
      *      parameters:
      *       - in: path
      *         name: id
+     *         schema:
+ *                 type: string
      *         required: true
      *         description: Id of the product to update
      *      requestBody:
@@ -116,6 +120,8 @@ router
      *      parameters:
      *       - in: path
      *         name: id
+     *         schema:
+ *                 type: string
      *         required: true
      *         description: Id of the product to delete
      *      summary: delete product by id
