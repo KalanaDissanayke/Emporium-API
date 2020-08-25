@@ -8,6 +8,9 @@ const {
     productPhotoUpload,
 } = require('../controllers/products');
 
+const Product = require('../models/Product');
+const advancedResults = require('../middleware/advancedResults');
+
 const router = express.Router({ mergeParams: true });
 
 router
@@ -27,7 +30,7 @@ router
      *              schema:
      *                $ref: '#/components/schemas/Product'
      */
-    .get(getProducts)
+    .get(advancedResults(Product, { path: 'category', select: 'name slug' }), getProducts)
 
     /**
      * @swagger
