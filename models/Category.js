@@ -17,6 +17,7 @@ const CategorySchema = new mongoose.Schema(
         },
     },
     {
+        id: false,
         toJSON: { virtuals: true },
         toObject: { virtuals: true },
     },
