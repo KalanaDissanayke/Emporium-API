@@ -49,3 +49,18 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({ success: true, data: category });
 });
+
+// @desc            Delete category
+// @route           DELETE /api/v1/categories/:id
+// @access          Private
+exports.deleteCategory = asyncHandler(async (req, res, next) => {
+    const category = await Category.findById(req.params.id);
+
+    if (!category) {
+        return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));
+    }
+
+    await category.remove();
+
+    res.status(200).json({ success: true, data: {} });
+});
