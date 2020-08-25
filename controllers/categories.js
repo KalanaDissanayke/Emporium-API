@@ -8,7 +8,7 @@ const asyncHandler = require('../middleware/async');
 exports.getCategories = asyncHandler(async (req, res, next) => {
     let query;
 
-    query = Category.find();
+    query = Category.find().populate('products');
 
     const categories = await query;
 
