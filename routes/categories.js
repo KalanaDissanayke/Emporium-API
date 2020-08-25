@@ -24,6 +24,8 @@ const router = express.Router();
  *      parameters:
  *       - in: path
  *         name: categoryId
+ *         schema:
+ *             type: string
  *         required: true
  *         description: Id of the category to get specified products
  *      summary: Get products for a category
