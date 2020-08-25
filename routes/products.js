@@ -1,5 +1,12 @@
 const express = require('express');
-const { getProducts, getProduct, createProduct, updateProduct, deleteProduct } = require('../controllers/products');
+const {
+    getProducts,
+    getProduct,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+    productPhotoUpload,
+} = require('../controllers/products');
 
 const router = express.Router({ mergeParams: true });
 
@@ -119,5 +126,7 @@ router
      *                 $ref: '#/components/schemas/Product'
      */
     .delete(deleteProduct);
+
+router.route('/:id/photo').put(productPhotoUpload);
 
 module.exports = router;
