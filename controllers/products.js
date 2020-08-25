@@ -4,6 +4,7 @@ const asyncHandler = require('../middleware/async');
 
 // @desc            Get all products
 // @route           GET /api/v1/products
+// @route           GET /api/v1/categories/:categoryId/products
 // @access          Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
     let query;
@@ -22,7 +23,12 @@ exports.getProducts = asyncHandler(async (req, res, next) => {
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`);
 
     // Finding resource
-    query = Product.find(JSON.parse(queryStr));
+    if (req.params.categoryId) {
+        query = Product.find({ ...JSON.parse(queryStr), category: req.params.categoryId });
+    } else {
+        query = Product.find(JSON.parse(queryStr));
+    }
+    // query = Product.find(JSON.parse(queryStr));
 
     // Select Fields
     if (req.query.select) {
