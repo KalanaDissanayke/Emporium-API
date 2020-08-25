@@ -6,13 +6,7 @@ const asyncHandler = require('../middleware/async');
 // @route           GET /api/v1/categories
 // @access          Public
 exports.getCategories = asyncHandler(async (req, res, next) => {
-    let query;
-
-    query = Category.find().populate('products');
-
-    const categories = await query;
-
-    res.status(200).json({ success: true, count: categories.length, data: categories });
+    res.status(200).json(res.advancedResults);
 });
 
 // @desc            Get single category
