@@ -69,7 +69,7 @@ router
      *       - in: path
      *         name: id
      *         schema:
-     *                 type: string
+     *             type: string
      *         required: true
      *         description: Id of the product to get details
      *      summary: Get product by id
@@ -93,7 +93,7 @@ router
      *       - in: path
      *         name: id
      *         schema:
-     *                 type: string
+     *             type: string
      *         required: true
      *         description: Id of the product to update
      *      requestBody:
@@ -123,7 +123,7 @@ router
      *       - in: path
      *         name: id
      *         schema:
-     *                 type: string
+     *             type: string
      *         required: true
      *         description: Id of the product to delete
      *      summary: delete product by id
@@ -138,6 +138,36 @@ router
      */
     .delete(protect, authorize('seller', 'admin'), deleteProduct);
 
-router.route('/:id/photo').put(protect, authorize('seller', 'admin'), productPhotoUpload);
+router
+    .route('/:id/photo')
+ /**
+     * @swagger
+     * path:
+     *  /products/{id}/photo:
+     *    put:
+     *      parameters:
+     *       - in: path
+     *         name: id
+     *         schema:
+     *             type: string
+     *         required: true
+     *         description: Id of the product to upload image
+     *       - in: formdata
+     *         name: file
+     *         schema:
+     *             type: file
+     *         required: true
+     *         description: image to upload
+     *      summary: Upload image for the product
+     *      tags: [Products]
+     *      responses:
+     *         "200":
+     *           description: image uploaded
+     *           content:
+     *             application/json:
+     *               schema:
+     *                 $ref: '#/components/schemas/Product'
+     */
+.put(protect, authorize('seller', 'admin'), productPhotoUpload);
 
 module.exports = router;

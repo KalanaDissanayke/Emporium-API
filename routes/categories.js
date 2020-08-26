@@ -10,6 +10,8 @@ const {
 const Category = require('../models/Category');
 const advancedResults = require('../middleware/advancedResults');
 
+const { protect, authorize } = require('../middleware/auth');
+
 // Include other resource routers
 const productsRouter = require('./products');
 
@@ -80,7 +82,7 @@ router
      *              schema:
      *                $ref: '#/components/schemas/Category'
      */
-    .post(createCategory);
+    .post(protect, authorize('seller', 'admin'), createCategory);
 
 router
     .route('/:id')
@@ -93,7 +95,7 @@ router
      *       - in: path
      *         name: id
      *         schema:
- *                 type: string
+     *             type: string
      *         required: true
      *         description: Id of the category to get details
      *      summary: Get category by id
@@ -106,7 +108,7 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Category'
      */
-    .get(getCategory)
+    .get(protect, authorize('seller', 'admin'), getCategory)
 
     /**
      * @swagger
@@ -136,7 +138,7 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Category'
      */
-    .put(updateCategory)
+    .put(protect, authorize('seller', 'admin'), updateCategory)
 
     /**
      * @swagger
@@ -160,6 +162,6 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Category'
      */
-    .delete(deleteCategory);
+    .delete(protect, authorize('seller', 'admin'), deleteCategory);
 
 module.exports = router;
