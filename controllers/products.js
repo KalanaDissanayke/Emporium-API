@@ -36,6 +36,7 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
 // @access          Private
 exports.createProduct = asyncHandler(async (req, res, next) => {
     req.body.category = req.params.categoryId;
+    req.body.user = req.user.id;
 
     const category = await Category.findById(req.params.categoryId);
 
