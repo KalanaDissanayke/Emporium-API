@@ -30,7 +30,7 @@ router
      *              schema:
      *                $ref: '#/components/schemas/Product'
      */
-    .get(advancedResults(Product, { path: 'category', select: 'name slug' }), getProducts)
+    .get(protect, authorize('admin'), advancedResults(Product, { path: 'category', select: 'name slug' }), getProducts)
 
 router
     .route('/:id')
@@ -57,7 +57,7 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Product'
      */
-    .get(getProduct)
+    .get(protect, authorize('admin'), getProduct)
 
     /**
      * @swagger
