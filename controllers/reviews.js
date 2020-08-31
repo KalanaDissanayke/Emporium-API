@@ -39,3 +39,24 @@ exports.getReview = asyncHandler(async (req, res, next) => {
         data: review,
     });
 });
+
+// @desc      Add review
+// @route     POST /api/v1/products/:productId/reviews
+// @access    Private
+exports.addReview = asyncHandler(async (req, res, next) => {
+    req.body.product = req.params.productId;
+    req.body.user = req.user.id;
+
+    const product = await Product.findById(req.params.productId);
+
+    if (!product) {
+        return next(new ErrorResponse(`No product with the id of ${req.params.productId}`, 404));
+    }
+
+    const review = await Review.create(req.body);
+
+    res.status(201).json({
+        success: true,
+        data: review,
+    });
+});
