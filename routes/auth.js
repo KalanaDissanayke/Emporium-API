@@ -2,6 +2,7 @@ const express = require('express');
 const {
     register,
     login,
+    logout,
     getMe,
     forgotPassword,
     resetPassword,
@@ -83,6 +84,8 @@ router.route('/me');
  *                $ref: '#/components/schemas/User'
  */
 router.get('/me', protect, getMe);
+
+router.get('/logout', logout);
 
 router.put('/updatedetails', protect, updateDetails);
 
