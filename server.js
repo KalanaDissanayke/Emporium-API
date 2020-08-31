@@ -5,6 +5,7 @@ const colors = require('colors');
 const fileupload = require('express-fileupload');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const mongoSanitize = require('express-mongo-sanitize');
 const cors = require('cors');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -42,6 +43,9 @@ if (process.env.NODE_ENV === 'development') {
 
 // File Uploading
 app.use(fileupload());
+
+// Sanitize Data
+app.use(mongoSanitize());
 
 // Enable CORS
 app.use(cors());
