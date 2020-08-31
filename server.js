@@ -6,6 +6,7 @@ const fileupload = require('express-fileupload');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
 const cors = require('cors');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -46,6 +47,9 @@ app.use(fileupload());
 
 // Sanitize Data
 app.use(mongoSanitize());
+
+// Set Security Headers
+app.use(helmet());
 
 // Enable CORS
 app.use(cors());
