@@ -5,6 +5,7 @@ const colors = require('colors');
 const fileupload = require('express-fileupload');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -39,6 +40,9 @@ if (process.env.NODE_ENV === 'development') {
 
 // File Uploading
 app.use(fileupload());
+
+// Enable CORS
+app.use(cors());
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
