@@ -8,6 +8,8 @@ const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 const xss = require('xss-clean');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
 const cors = require('cors');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -54,6 +56,17 @@ app.use(helmet());
 
 // Prevent XSS Attacks
 app.use(xss());
+
+// Rate Limiting
+const limiter = rateLimit({
+    windowMs: 10 * 60 * 1000, // 10 minutes
+    max: 100,
+});
+
+app.use(limiter);
+
+// Prevent HTTP Param Pollution
+app.use(hpp());
 
 // Enable CORS
 app.use(cors());
