@@ -25,6 +25,7 @@ const categories = require('./routes/categories');
 const auth = require('./routes/auth');
 const admin = require('./routes/admin');
 const users = require('./routes/users');
+const reviews = require('./routes/reviews');
 
 const app = express();
 
@@ -57,6 +58,7 @@ app.use('/api/v1/categories', categories);
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/admin/products', admin);
 app.use('/api/v1/users', users);
+app.use('/api/v1/reviews', reviews);
 
 app.use(errorHandler);
 
