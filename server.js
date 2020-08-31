@@ -7,6 +7,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
+const xss = require('xss-clean');
 const cors = require('cors');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -50,6 +51,9 @@ app.use(mongoSanitize());
 
 // Set Security Headers
 app.use(helmet());
+
+// Prevent XSS Attacks
+app.use(xss());
 
 // Enable CORS
 app.use(cors());

@@ -26,7 +26,8 @@
         "nodemailer": "^6.4.11",
         "slugify": "^1.4.5",
         "swagger-jsdoc": "^4.0.0",
-        "swagger-ui-express": "^4.1.4"
+        "swagger-ui-express": "^4.1.4",
+        "xss-clean": "^0.1.1"
     },
     "devDependencies": {
         "@commitlint/cli": "^9.1.1",
