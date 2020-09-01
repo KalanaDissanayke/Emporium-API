@@ -13,7 +13,13 @@ const advancedResults = require('../middleware/advancedResults');
 
 const { protect, authorize } = require('../middleware/auth');
 
+// Include other resource routers
+const reviewsRouter = require('./reviews');
+
 const router = express.Router({ mergeParams: true });
+
+// Re-route into other resource routers
+router.use('/:productId/reviews', reviewsRouter);
 
 router
     .route('/')
@@ -140,7 +146,7 @@ router
 
 router
     .route('/:id/photo')
- /**
+    /**
      * @swagger
      * path:
      *  /products/{id}/photo:
@@ -168,6 +174,6 @@ router
      *               schema:
      *                 $ref: '#/components/schemas/Product'
      */
-.put(protect, authorize('seller', 'admin'), productPhotoUpload);
+    .put(protect, authorize('seller', 'admin'), productPhotoUpload);
 
 module.exports = router;

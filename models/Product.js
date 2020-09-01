@@ -76,6 +76,7 @@ const ProductSchema = new mongoose.Schema({
     stock: {
         quantity: {
             type: Number,
+            min: [1, 'Stock must be at least 1'],
             required: [true, 'Please add a product quantity'],
         },
         unitOfMeasure: {
@@ -87,7 +88,10 @@ const ProductSchema = new mongoose.Schema({
     averageRating: {
         type: Number,
         min: [1, 'Rating must be at least 1'],
-        max: [10, 'Rating must can not be more than 10'],
+        max: [5, 'Rating must can not be more than 5'],
+    },
+    reviewCount: {
+        type: Number,
     },
     photo: {
         type: String,
