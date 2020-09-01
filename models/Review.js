@@ -46,6 +46,7 @@ ReviewSchema.statics.getAverageRating = async function (productId) {
             $group: {
                 _id: '$product',
                 averageRating: { $avg: '$rating' },
+                count: { $sum: 1 },
             },
         },
     ]);
@@ -53,6 +54,7 @@ ReviewSchema.statics.getAverageRating = async function (productId) {
     try {
         await this.model('Product').findByIdAndUpdate(productId, {
             averageRating: obj[0].averageRating,
+            reviewCount: obj[0].count,
         });
     } catch (err) {
         console.error(err);

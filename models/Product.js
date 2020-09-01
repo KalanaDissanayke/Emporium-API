@@ -90,6 +90,9 @@ const ProductSchema = new mongoose.Schema({
         min: [1, 'Rating must be at least 1'],
         max: [5, 'Rating must can not be more than 5'],
     },
+    reviewCount: {
+        type: Number,
+    },
     photo: {
         type: String,
         default: 'no-photo.jpg',
