@@ -8,6 +8,7 @@ const {
     resetPassword,
     updateDetails,
     updatePassword,
+    socialLogin,
 } = require('../controllers/auth');
 const { protect } = require('../middleware/auth');
 
@@ -84,6 +85,8 @@ router.route('/me');
  *                $ref: '#/components/schemas/User'
  */
 router.get('/me', protect, getMe);
+
+router.post('/social', socialLogin);
 
 router.get('/logout', logout);
 
