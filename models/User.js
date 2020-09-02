@@ -51,6 +51,16 @@ const UserSchema = new mongoose.Schema({
         minlength: 6,
         select: false,
     },
+    provider: {
+        type: String,
+        enum: ['EMAIL', 'GOOGLE', 'FACEBOOK'],
+        default: 'EMAIL',
+        select: false,
+    },
+    providerId: {
+        type: String,
+        select: false,
+    },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
     createdAt: {

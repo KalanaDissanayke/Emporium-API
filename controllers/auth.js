@@ -21,6 +21,32 @@ exports.register = asyncHandler(async (req, res, next) => {
     sendTokenResponse(user, 200, res);
 });
 
+// @desc            Register SSO user
+// @route           POST /api/v1/auth/social
+// @access          Public
+exports.socialLogin = asyncHandler(async (req, res, next) => {
+    const { name, email, provider, providerId, role, password } = req.body;
+
+    // Check for user
+    const dbUser = await User.findOne({ email, providerId });
+
+    if (dbUser) {
+        return sendTokenResponse(dbUser, 200, res);
+    }
+
+    // Create user
+    const user = await User.create({
+        name,
+        email,
+        provider,
+        providerId,
+        role,
+        password,
+    });
+
+    sendTokenResponse(user, 200, res);
+});
+
 // @desc            Login user
 // @route           POST /api/v1/auth/login
 // @access          Public
