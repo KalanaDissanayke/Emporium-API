@@ -7,7 +7,7 @@ const asyncHandler = require('../middleware/async');
 // @desc            Get all products
 // @route           GET /api/v1/admin/products
 // @route           GET /api/v1/categories/:categoryId/admin/products
-// @access          Public
+// @access          Private
 exports.getProducts = asyncHandler(async (req, res, next) => {
     if (req.params.categoryId) {
         const products = await Product.find({ category: req.params.categoryId });
@@ -20,7 +20,7 @@ exports.getProducts = asyncHandler(async (req, res, next) => {
 
 // @desc            Get single products
 // @route           GET /api/v1/admin/products/:id
-// @access          Public
+// @access          Private
 exports.getProduct = asyncHandler(async (req, res, next) => {
     const product = await Product.findById(req.params.id);
 

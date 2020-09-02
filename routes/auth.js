@@ -74,11 +74,11 @@ router.route('/me');
  * path:
  *  /auth/me:
  *    get:
- *      summary:
+ *      summary: logged in user details
  *      tags: [Auth]
  *      responses:
  *        "200":
- *          description: logged in user details
+ *          description: user object
  *          content:
  *            application/json:
  *              schema:
