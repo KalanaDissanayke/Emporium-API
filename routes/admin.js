@@ -1,10 +1,5 @@
 const express = require('express');
-const {
-    getProducts,
-    getProduct,
-    updateProduct,
-    deleteProduct,
-} = require('../controllers/admin');
+const { getProducts, getProduct, updateProduct, deleteProduct, productPhotoUpload } = require('../controllers/admin');
 
 const Product = require('../models/Product');
 const advancedResults = require('../middleware/advancedResults');
@@ -30,7 +25,7 @@ router
      *              schema:
      *                $ref: '#/components/schemas/Product'
      */
-    .get(protect, authorize('admin'), advancedResults(Product, { path: 'category', select: 'name slug' }), getProducts)
+    .get(protect, authorize('admin'), advancedResults(Product, { path: 'category', select: 'name slug' }), getProducts);
 
 router
     .route('/:id')
@@ -112,5 +107,7 @@ router
      *                 $ref: '#/components/schemas/Product'
      */
     .delete(protect, authorize('admin'), deleteProduct);
+
+router.route('/:id/photo').put(protect, authorize('admin'), productPhotoUpload);
 
 module.exports = router;
