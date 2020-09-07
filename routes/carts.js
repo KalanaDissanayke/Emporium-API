@@ -12,7 +12,7 @@ router
     .route('/')
     .get(
         protect,
-        authorize('admin'),
+        authorize('user', 'admin'),
         advancedResults(Cart, {
             path: 'products.product',
             select: 'name description',
