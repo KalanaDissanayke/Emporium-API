@@ -7,7 +7,21 @@ const asyncHandler = require('../middleware/async');
 // @route     GET /api/v1/carts
 // @access    Public
 exports.getCarts = asyncHandler(async (req, res, next) => {
-    res.status(200).json(res.advancedResults);
+    if (req.user.role === 'admin') {
+        return res.status(200).json(res.advancedResults);
+    }
+
+    // Check for user carts
+    const userCarts = await Cart.find({ user: req.user.id, status: 'IN PROGRESS' }).populate({
+        path: 'products.product',
+        select: 'name description photo unitPrice',
+    });
+
+    res.status(200).json({
+        success: true,
+        count: userCarts.length,
+        data: userCarts,
+    });
 });
 
 // @desc      Get single cart
@@ -71,7 +85,7 @@ exports.addCart = asyncHandler(async (req, res, next) => {
             productsWithStockCheck.map((p) => p.remainingQty),
         ) < 1
     ) {
-        return next(new ErrorResponse(`Stock is not enough`, 404));
+        return next(new ErrorResponse(`Stock is not enough`, 400));
     }
 
     const cart = await Cart.create(req.body);
@@ -118,7 +132,7 @@ exports.updateCart = asyncHandler(async (req, res, next) => {
             productsWithStockCheck.map((p) => p.remainingQty),
         ) < 1
     ) {
-        return next(new ErrorResponse(`Stock is not enough`, 404));
+        return next(new ErrorResponse(`Stock is not enough`, 400));
     }
 
     cart = await Cart.findByIdAndUpdate(req.params.id, req.body, {
