@@ -32,11 +32,13 @@ const admin = require('./routes/admin');
 const users = require('./routes/users');
 const reviews = require('./routes/reviews');
 const carts = require('./routes/carts');
+const orders = require('./routes/orders');
 
 const app = express();
 
 // Body Parser
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Cookie Parser
 app.use(cookieParser());
@@ -86,6 +88,7 @@ app.use('/api/v1/admin/products', admin);
 app.use('/api/v1/users', users);
 app.use('/api/v1/reviews', reviews);
 app.use('/api/v1/carts', carts);
+app.use('/api/v1/orders', orders);
 
 app.use(errorHandler);
 
