@@ -17,6 +17,8 @@ router
      *    get:
      *      summary: Get all products
      *      tags: [Admin]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *        "200":
      *          description: An array of products
