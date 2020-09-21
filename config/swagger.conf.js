@@ -10,6 +10,15 @@ const options = {
             //     url: '',
             // },
         },
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                },
+            },
+        },
         servers: [
             {
                 url: 'http://localhost:{port}/{basePath}',
