@@ -46,6 +46,8 @@ router
      *         description: Id of the product to get details
      *      summary: Get product by id
      *      tags: [Admin]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *         "200":
      *           description: A product
@@ -76,6 +78,8 @@ router
      *            $ref: '#/components/schemas/Product'
      *      summary: update product by id
      *      tags: [Admin]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *         "200":
      *           description: A product
@@ -100,6 +104,8 @@ router
      *         description: Id of the product to delete
      *      summary: delete product by id
      *      tags: [Admin]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *         "200":
      *           description: A product

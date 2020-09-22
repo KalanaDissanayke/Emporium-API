@@ -74,6 +74,8 @@ router
      *            $ref: '#/components/schemas/Category'
      *      summary: Create a new category
      *      tags: [Categories]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *        "201":
      *          description: A category object
@@ -100,6 +102,8 @@ router
      *         description: Id of the category to get details
      *      summary: Get category by id
      *      tags: [Categories]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *         "200":
      *           description: A category
@@ -119,7 +123,7 @@ router
      *       - in: path
      *         name: id
      *         schema:
- *                 type: string
+     *             type: string
      *         required: true
      *         description: Id of the category to update
      *      requestBody:
@@ -130,6 +134,8 @@ router
      *            $ref: '#/components/schemas/Category'
      *      summary: update category by id
      *      tags: [Categories]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *         "200":
      *           description: A category
@@ -154,6 +160,8 @@ router
      *         description: Id of the category to delete
      *      summary: delete category by id
      *      tags: [Categories]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *         "200":
      *           description: A category

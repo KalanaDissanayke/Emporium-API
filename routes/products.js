@@ -30,6 +30,8 @@ router
      *    get:
      *      summary: Get all products
      *      tags: [Products]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *        "200":
      *          description: An array of products
@@ -53,6 +55,8 @@ router
      *            $ref: '#/components/schemas/Product'
      *      summary: Create a new product
      *      tags: [Products]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *        "201":
      *          description: An product object
@@ -110,6 +114,8 @@ router
      *            $ref: '#/components/schemas/Product'
      *      summary: update product by id
      *      tags: [Products]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *         "200":
      *           description: A product
@@ -134,6 +140,8 @@ router
      *         description: Id of the product to delete
      *      summary: delete product by id
      *      tags: [Products]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *         "200":
      *           description: A product
@@ -166,6 +174,8 @@ router
      *         description: image to upload
      *      summary: Upload image for the product
      *      tags: [Products]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *         "200":
      *           description: image uploaded
