@@ -30,8 +30,6 @@ router
      *    get:
      *      summary: Get all products
      *      tags: [Products]
-     *      security:
-     *          - bearerAuth: []
      *      responses:
      *        "200":
      *          description: An array of products
