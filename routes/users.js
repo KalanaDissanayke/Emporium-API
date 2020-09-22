@@ -20,6 +20,8 @@ router
      *    get:
      *      summary: Get all users
      *      tags: [Users]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *        "200":
      *          description: Users
@@ -43,6 +45,8 @@ router
      *            $ref: '#/components/schemas/User'
      *      summary: Create a new user
      *      tags: [Users]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *        "201":
      *          description: An user object
@@ -69,6 +73,8 @@ router
      *         description: Id of the user to get details
      *      summary: Get user by id
      *      tags: [Users]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *         "200":
      *           description: A user
@@ -99,6 +105,8 @@ router
      *            $ref: '#/components/schemas/User'
      *      summary: update user by id
      *      tags: [Users]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *         "200":
      *           description: A user
@@ -123,6 +131,8 @@ router
      *         description: Id of the user to delete
      *      summary: delete user by id
      *      tags: [Users]
+     *      security:
+     *          - bearerAuth: []
      *      responses:
      *         "200":
      *           description: A user

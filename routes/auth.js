@@ -76,6 +76,8 @@ router.route('/me');
  *    get:
  *      summary: logged in user details
  *      tags: [Auth]
+ *      security:
+ *          - bearerAuth: []
  *      responses:
  *        "200":
  *          description: user object
