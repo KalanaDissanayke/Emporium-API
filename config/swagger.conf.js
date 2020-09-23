@@ -33,6 +33,15 @@ const options = {
                     },
                 },
             },
+            {
+                url: 'https://api.emporiumsl.com/{basePath}',
+                description: 'Development Server',
+                variables: {
+                    basePath: {
+                        default: 'api/v1',
+                    },
+                },
+            },
         ],
     },
     apis: ['./routes/*.js', './models/*.js'],
